@@ -4,16 +4,6 @@ const ScrollProgressBar = () => {
   const [scrollWidth, setScrollWidth] = useState(0);
   const [isAnimating, setIsAnimating] = useState(true); // Tracks if the page load animation is active
 
-  useEffect(() => {
-    // Simulate the page load animation
-    const animationTimeout = setTimeout(() => {
-      setIsAnimating(false); // End the animation after 2 seconds
-    }, 2000);
-
-    // Clean up timeout
-    return () => clearTimeout(animationTimeout);
-  }, []);
-
   const handleScroll = () => {
     const scrollTop = document.documentElement.scrollTop;
     const scrollHeight =
@@ -24,11 +14,22 @@ const ScrollProgressBar = () => {
   };
 
   useEffect(() => {
-    if (!isAnimating) {
-      window.addEventListener("scroll", handleScroll);
-    }
+    // Simulate the page load animation
+    const animationTimeout = setTimeout(() => {
+      setIsAnimating(false); // End the animation after 2 seconds
+    }, 2000);
+
+    // Clean up timeout
+    return () => clearTimeout(animationTimeout);
+  }, []);
+
+  useEffect(() => {
+    // Always listen for scroll events
+    window.addEventListener("scroll", handleScroll);
+    // Call handleScroll once on mount to set initial position
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isAnimating]);
+  }, []);
 
   return (
     <>
@@ -56,10 +57,10 @@ const ScrollProgressBar = () => {
             top: 0,
             left: 0,
             width: `${scrollWidth}%`,
-            height: "5px", // Thicker line for scroll progress
-            backgroundColor: "grey",
+            height: "3px",
+            backgroundColor: "#3b82f6",
             zIndex: 100,
-            transition: "width 0.2s ease",
+            transition: "width 0.1s ease",
           }}
         />
       )}
