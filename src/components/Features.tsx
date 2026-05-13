@@ -72,12 +72,12 @@ const Features = () => {
           {features.map((feature, index) => {
             const IconComponent = feature.icon;
             return (
-              <div key={index} className={`group w-62 h-72 bg-gray-100 dark:bg-gray-800 ${feature.hoverColor} ${feature.borderColor} rounded-2xl shadow-md hover:shadow-2xl border dark:border-gray-800 transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 ease-linear p-6`}>
+              <div key={index} className={`group w-64 h-72 bg-gray-100 dark:bg-gray-800 ${feature.hoverColor} ${feature.borderColor} rounded-2xl shadow-md hover:shadow-2xl border dark:border-gray-800 transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 ease-linear p-6`}>
                 <div className={`${feature.bgColor} w-12 h-12 rounded-lg flex items-center justify-center mb-6`}>
                   <IconComponent className={`h-6 w-6 ${feature.iconColor}`} />
                 </div>
                 <h3 className="  text-2xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-black dark:group-hover:text-white transition-colors duration-300">{feature.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300 text-md font-semibold leading-relaxed group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors duration-300">
+                <p className="text-gray-600 dark:text-gray-300 text-base font-semibold leading-relaxed group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors duration-300">
                   {feature.description}
                 </p>
               </div>
