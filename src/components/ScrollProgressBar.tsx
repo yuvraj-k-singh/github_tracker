@@ -5,11 +5,20 @@ const ScrollProgressBar = () => {
   const [isAnimating, setIsAnimating] = useState(true); // Tracks if the page load animation is active
 
   const handleScroll = () => {
-    const scrollTop = document.documentElement.scrollTop;
-    const scrollHeight =
-      document.documentElement.scrollHeight -
-      document.documentElement.clientHeight;
-    const width = (scrollTop / scrollHeight) * 100;
+    const { documentElement } = document;
+    const scrollTop = documentElement.scrollTop;
+    const scrollableHeight =
+      documentElement.scrollHeight - documentElement.clientHeight;
+
+    if (scrollableHeight <= 0) {
+      setScrollWidth(0);
+      return;
+    }
+
+    const width = Math.min(
+      100,
+      Math.max(0, (scrollTop / scrollableHeight) * 100),
+    );
     setScrollWidth(width);
   };
 
