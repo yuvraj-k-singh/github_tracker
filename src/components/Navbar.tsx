@@ -1,22 +1,11 @@
-import { NavLink, Link, useLocation } from "react-router-dom";
-import { useState, useContext, useEffect } from "react";
+import { NavLink, Link } from "react-router-dom";
+import { useState, useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import { Moon, Sun, Menu, X, UserPlus } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const themeContext = useContext(ThemeContext);
-  const { hash } = useLocation();
-
-  // 1. Bot Fix: Reliable scrolling using URL hash
-  useEffect(() => {
-    if (hash === "#features") {
-      const element = document.getElementById("features");
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  }, [hash]);
 
   if (!themeContext) return null;
   const { toggleTheme, mode } = themeContext;
@@ -43,7 +32,6 @@ const Navbar: React.FC = () => {
 
           <div className="hidden lg:flex items-center justify-center flex-1 space-x-1">
             <NavLink to="/" className={navLinkStyles}>Home</NavLink>
-            <Link to="/#features" className="px-5 py-2 rounded-full text-lg font-semibold text-slate-600 dark:text-gray-300 hover:text-blue-500 transition-all">Features</Link>
             <NavLink to="/track" className={navLinkStyles}>Tracker</NavLink>
             <NavLink to="/contributors" className={navLinkStyles}>Contributors</NavLink>
           </div>
@@ -51,7 +39,6 @@ const Navbar: React.FC = () => {
           <div className="hidden lg:flex items-center space-x-5">
             <div className="h-8 w-[1.5px] bg-indigo-200/60 dark:bg-gray-700 mx-2 rounded-full" />
 
-            {/* 2. Bot Fix: Added aria-label for accessibility */}
             <button
               onClick={toggleTheme}
               className="p-2.5 rounded-full text-slate-500 dark:text-gray-400 bg-white/40 dark:bg-gray-800/40 hover:bg-white transition-all shadow-sm"
@@ -68,7 +55,7 @@ const Navbar: React.FC = () => {
           </div>
 
           <div className="lg:hidden flex items-center space-x-3">
-            <button onClick={toggleTheme} className="p-2 text-slate-500" aria-label="Toggle theme">
+            <button onClick={toggleTheme} className="p-2 text-slate-500 dark:text-gray-400" aria-label="Toggle theme">
               {mode === "dark" ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
             </button>
             
@@ -84,21 +71,21 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. Bot Fix: Added 'invisible' and 'lg:visible' to prevent ghost keyboard focus */}
+      {/* Mobile Menu Panel */}
       <div className={`
-        lg:hidden overflow-hidden transition-all duration-500 ease-in-out bg-white/95 dark:bg-gray-900
+        lg:hidden overflow-hidden transition-all duration-500 ease-in-out bg-indigo-50/95 dark:bg-gray-900/95 backdrop-blur-xl
         ${isOpen 
-          ? "max-h-[600px] opacity-100 border-t border-indigo-50 shadow-2xl visible" 
+          ? "max-h-[600px] opacity-100 border-t border-indigo-100/50 dark:border-gray-800 shadow-2xl visible" 
           : "max-h-0 opacity-0 invisible"
         }
       `}>
         <div className="px-5 py-10 space-y-4">
           <MobileNavLink to="/" onClick={() => setIsOpen(false)}>Home</MobileNavLink>
-          <Link to="/#features" className="block px-6 py-4 rounded-2xl text-xl font-bold text-slate-600 dark:text-gray-400 hover:bg-indigo-50" onClick={() => setIsOpen(false)}>Features</Link>
           <MobileNavLink to="/track" onClick={() => setIsOpen(false)}>Tracker</MobileNavLink>
           <MobileNavLink to="/contributors" onClick={() => setIsOpen(false)}>Contributors</MobileNavLink>
-          <div className="pt-8 mt-6 border-t border-slate-100 grid grid-cols-2 gap-5">
-            <Link to="/login" className="flex items-center justify-center py-4 text-lg font-bold text-slate-700 bg-slate-50 rounded-2xl" onClick={() => setIsOpen(false)}>Login</Link>
+          
+          <div className="pt-8 mt-6 border-t border-indigo-100/50 dark:border-gray-800 grid grid-cols-2 gap-5">
+            <Link to="/login" className="flex items-center justify-center py-4 text-lg font-bold text-slate-700 dark:text-gray-200 bg-white/60 dark:bg-gray-800/60 rounded-2xl border border-indigo-100/50 dark:border-gray-700" onClick={() => setIsOpen(false)}>Login</Link>
             <Link to="/signup" className="flex items-center justify-center py-4 text-lg font-bold text-white bg-blue-600 rounded-2xl shadow-lg" onClick={() => setIsOpen(false)}>Sign Up</Link>
           </div>
         </div>
@@ -108,7 +95,7 @@ const Navbar: React.FC = () => {
 };
 
 const MobileNavLink = ({ to, children, onClick }: { to: string, children: React.ReactNode, onClick: () => void }) => (
-  <NavLink to={to} onClick={onClick} className={({ isActive }) => `block px-6 py-4 rounded-2xl text-xl font-bold transition-all ${isActive ? "bg-blue-600 text-white shadow-lg translate-x-2" : "text-slate-600 dark:text-gray-400 hover:translate-x-1"}`}>{children}</NavLink>
+  <NavLink to={to} onClick={onClick} className={({ isActive }) => `block px-6 py-4 rounded-2xl text-xl font-bold transition-all ${isActive ? "bg-blue-600 text-white shadow-lg translate-x-2" : "text-slate-600 dark:text-gray-400 hover:bg-white/40 dark:hover:bg-gray-800/40"}`}>{children}</NavLink>
 );
 
 export default Navbar;
