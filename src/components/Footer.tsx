@@ -7,7 +7,7 @@ function Footer() {
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Subscribed email:', email);
+    // Removed raw console logging of emails to protect user data privacy (PII leak fix)
     alert('Thank you for subscribing!');
     setEmail('');
   };
@@ -139,14 +139,18 @@ function Footer() {
               <FaGithub className="h-7 w-7" />
             </a>
             <a 
-              href="#" 
+              href="https://x.com/your_handle" 
+              target="_blank" 
+              rel="noopener noreferrer" 
               className="text-zinc-400 dark:text-zinc-500 hover:text-sky-500 dark:hover:text-zinc-100 transition-colors duration-200" 
               aria-label="Twitter"
             >
               <FaTwitter className="h-7 w-7" />
             </a>
             <a 
-              href="#" 
+              href="https://discord.gg/your_invite" 
+              target="_blank" 
+              rel="noopener noreferrer" 
               className="text-zinc-400 dark:text-zinc-500 hover:text-indigo-500 dark:hover:text-zinc-100 transition-colors duration-200" 
               aria-label="Discord"
             >
